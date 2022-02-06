@@ -23,10 +23,10 @@ class Cannon{
 
         //condição para mover o cano do canhão com as setas
         //o ângulo aumenta no sentido horário ("+" vai para a direita, "-" para esquerda)
-        if (keyIsDown(RIGHT_ARROW) && this.angle< 70){ //&& (and) restringindo o angulo de movimento do canhão
+        if (keyIsDown(RIGHT_ARROW) && this.angle< 40){ //&& (and) restringindo o angulo de movimento do canhão
             this.angle +=1; //ou this.angle = this.angle +1
         }
-        if (keyIsDown(LEFT_ARROW) && this.angle>= -30){
+        if (keyIsDown(LEFT_ARROW) && this.angle>= -60){
             this.angle -=1; 
         }
 

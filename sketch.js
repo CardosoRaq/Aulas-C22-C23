@@ -7,6 +7,8 @@ var engine, world;
 var canvas, backgroundImg;
 var ground, tower, towerImg;
 var angle, cannon, cannonBall;
+//criando uma matriz para armazenar todas as balas de canhão
+var balls = [];
 
 function preload(){
     backgroundImg = loadImage("./assets/background.gif");
@@ -34,15 +36,12 @@ function setup(){
     //criando um novo objeto da classe Canhão e passando os parâmetros necessários
     cannon = new Cannon(180,110,150,100,angle);
 
-    //criando um novo objeto da classe Bola de Canhão, passando a mesma posição do cano do canhão
-    cannonBall = new CannonBall(cannon.x, cannon.y);
 
-
-
+   
 }
 
 function draw(){
-    background(189);
+    //background(189);
     image(backgroundImg, 0, 0, width, height); //colocando imagem de fundo
 
     Engine.update(engine);
@@ -63,14 +62,35 @@ function draw(){
     cannon.display();
 
     //chamando o método display(mostrar) da classe Bola de Canhão para o objeto criado
-    cannonBall.display();
+    //cannonBall.display();
+
+
+    for (var i = 0; i<balls.length; i++){
+        showCannonBalls(balls[i], i);
+    }
 
 
 }
 
 //função para a atirar a bola quando a seta para baixo for pressionada
+function keyPressed(){
+    if (keyCode===DOWN_ARROW){
+        //criando um novo objeto da classe Bola de Canhão, passando a mesma posição do cano do canhão
+        cannonBall = new CannonBall (cannon.x, cannon.y);
+        balls.push(cannonBall);
+    }
+}
+
+//testa se existe uma bolinha, e depois mostra a bala de canhão na tela
+function showCannonBalls(ball, i){
+    if (ball){
+        ball.display();
+    }
+}
+
+//testa se o botão foi solto, se sim ela dispara a bolinha e decrementa 1 do vetor
 function keyReleased(){
     if (keyCode===DOWN_ARROW){
-        cannonBall.shoot();
+        balls[balls.length - 1].shoot();
     }
 }
