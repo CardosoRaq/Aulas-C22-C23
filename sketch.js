@@ -1,76 +1,55 @@
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
-const Body = Matter.Body;
+const Constraint = Matter.Constraint;
 
-var engine, world;
-var canvas, backgroundImg;
-var ground, tower, towerImg;
-var angle, cannon, cannonBall;
+var engine, world, ground;
+var solo;
+var backgroundImg;
+var torre, torreImg;
+var angle;
+var cannon;
 
-function preload(){
-    backgroundImg = loadImage("./assets/background.gif");
-    towerImg = loadImage("./assets/tower.png");
+function preload() {
+
+    backgroundImg = loadImage("./assets/background.gif")
+    torreImg = loadImage("./assets/tower.png");
 }
 
-function setup(){
-    canvas = createCanvas(1200,600);
-    engine = Engine.create();
-    world = engine.world;
+function setup() {
+  canvas = createCanvas(1200, 600);
+  engine = Engine.create();
+  world = engine.world;
+  
+  var solo_options={
+    isStatic:true
+  }
 
-    //criando solo 
-    ground = Bodies.rectangle(0, height-1, width*2, 1, {isStatic:true});
-    World.add(world, ground);
+  solo = Bodies.rectangle(0, height-1, width*2, 1, solo_options);
+  World.add(world, solo);
 
-    //criando a torre
-    tower = Bodies.rectangle(160, 350, 160, 310, {isStatic:true});
-    World.add(world, tower);
+  torre = Bodies.rectangle(150, 350, 160,310, solo_options);
+  World.add(world, torre);
 
-    //definindo a unidade de medida do ângulo para GRAUS ao invés de RADIANOS
-    angleMode(DEGREES);
-    //definindo o ângulo inicial do canhão
-    angle = 20;
-
-    //criando um novo objeto da classe Canhão e passando os parâmetros necessários
-    cannon = new Cannon(180,110,150,100,angle);
-
-    //criando um novo objeto da classe Bola de Canhão, passando a mesma posição do cano do canhão
-    cannonBall = new CannonBall(cannon.x, cannon.y);
-
+  angle = 20;
+  //criar um objeto da classe Cannon
+  cannon = new Cannon (180,110,130,100, angle);
 
 
 }
 
-function draw(){
-    background(189);
-    image(backgroundImg, 0, 0, width, height); //colocando imagem de fundo
-
-    Engine.update(engine);
-    
-    //mostrando solo na tela
-    rect(ground.position.x, ground.position.y, width*2,1);
-
-    //mostrando o contorno da torre na tela
-    //rect(tower.position.x, tower.position.y, 180,350);
-
-    //push adiciona uma configuração (+)
-    push();
-    imageMode(CENTER);
-    image(towerImg, tower.position.x, tower.position.y, 160,310);
-    pop(); //pop retorna para a configuração anterior (del)
-
-    //chamando o método display(mostrar) da classe Canhão para o objeto criado
-    cannon.display();
-
-    //chamando o método display(mostrar) da classe Bola de Canhão para o objeto criado
-    cannonBall.display();
-
-
-}
-
-//função para a atirar a bola quando a seta para baixo for pressionada
-function keyReleased(){
-    if (keyCode===DOWN_ARROW){
-        cannonBall.shoot();
-    }
+function draw() {
+  background(189);
+  image(backgroundImg, 0, 0, 1200,600);
+ 
+  Engine.update(engine);
+  
+  rect(solo.position.x, solo.position.y, width*2, 1);
+  
+  push();
+  imageMode(CENTER);
+  image(torreImg, torre.position.x, torre.position.y, 160,310);
+  pop();
+  
+  cannon.display();
 }
